@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { LocationQuery } from 'vue-router';
+import type { QuerySchema } from '~/types/query';
 
 const cardStore = useMyCardStore();
 const searching = ref<boolean>();
@@ -7,10 +7,11 @@ const error = ref<boolean>();
 const route = useRoute();
 const fetching = ref<boolean>();
 const fetchError = ref<boolean>();
+const currentQuery = ref<QuerySchema>(route.query as QuerySchema);
 
-await fetch(route.query);
+const {refresh} = await useAsyncData('card-search', () => fetch(currentQuery.value));
 
-async function fetch(query: LocationQuery) {
+async function fetch(query: QuerySchema) {
   fetching.value = true;
   fetchError.value = false;
   try {
@@ -31,7 +32,8 @@ function padding() {
 }
 
 onBeforeRouteUpdate(async (to, from) => {
-  await fetch(to.query)
+  currentQuery.value = to.query as QuerySchema;
+  await refresh();
 });
 
 
@@ -53,7 +55,7 @@ onBeforeRouteUpdate(async (to, from) => {
         </div>
       </div>
       <div v-if="fetchError" class="flex flex-col items-center justify-center p-4">
-        <UIcon name="i-heroicons-exclamation-triangle"/>
+        <UIcon name="i-heroicons-exclamation-triangle" />
         <span>
           No results for query.
         </span>

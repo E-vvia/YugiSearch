@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import type { ApiResponse } from '~/types/api-response';
 import type { Card } from '~/types/card';
+import type { QuerySchema } from '~/types/query';
 
 export const useMyCardStore = defineStore({
   id: 'myCardStoreStore',
@@ -20,7 +21,7 @@ export const useMyCardStore = defineStore({
   },
 
   actions: {
-    async fetchCards(queryParams: any) {
+    async fetchCards(queryParams: QuerySchema) {
       if (!queryParams.query) {
         this.cardList = [];
         return;
@@ -36,6 +37,7 @@ export const useMyCardStore = defineStore({
         const searchResults = await $fetch<ApiResponse>('/api/v7/cardinfo.php?' + params.toString());
         this.cardList = searchResults.data;
       } catch (ex) {
+        this.cardList = [];
         throw ex;
       }
 
