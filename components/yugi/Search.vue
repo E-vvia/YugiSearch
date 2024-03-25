@@ -1,12 +1,8 @@
 <script lang="ts" setup>
-import { z } from 'zod';
 import type { FormSubmitEvent } from '#ui/types'
+import type { QuerySchema } from '~/types/query';
+import { querySchema } from '~/types/query';
 const route = useRoute();
-const querySchema = z.object({
-  query: z.string().min(1).max(99),
-})
-
-type QuerySchema = z.output<typeof querySchema>
 
 const state = ref<QuerySchema>({
   query: route.query.query as string,

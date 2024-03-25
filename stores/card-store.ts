@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia'
+import type { ApiResponse } from '~/types/api-response';
+import type { Card } from '~/types/card';
 
 export const useMyCardStore = defineStore({
   id: 'myCardStoreStore',
   state: () => ({
-    cardList: [],
+    cardList: [] as Card[],
   }),
 
   getters: {
@@ -14,32 +16,32 @@ export const useMyCardStore = defineStore({
     hasCards: (state) => {
       return state.cardList.length > 0;
     },
-    
+
   },
 
-  actions:{
+  actions: {
     async fetchCards(queryParams: any) {
       if (!queryParams.query) {
         this.cardList = [];
         return;
       }
-    
+
       const apiQueryParams = {
         fname: queryParams.query as string,
         misc: 'yes'
       }
-    
+
       const params = new URLSearchParams(apiQueryParams);
-    
+
       try {
-    
-        const searchResults = await $fetch<any>('/api/v7/cardinfo.php?' + params.toString());
+
+        const searchResults = await $fetch<ApiResponse>('/api/v7/cardinfo.php?' + params.toString());
         this.cardList = searchResults.data;
-    
+
       } catch (error: any) {
-    
+
         console.error("Error at fetching request");
-    
+
       }
     }
   }
