@@ -2,7 +2,7 @@
 
 </script>
 <template>
-  <div class="min-h-svh p-5 md:p-20 bg-fixed bg-hexagon">
+  <div class="min-h-lvh p-5 md:p-20 bg-fixed bg-hexagon">
     <slot />
   </div>
 </template>

@@ -1,10 +1,19 @@
 <script lang="ts" setup>
+import type { LocationQuery } from 'vue-router';
+
 const cardStore = useMyCardStore();
 const searching = ref<boolean>();
 const error = ref<boolean>();
 const route = useRoute();
+const fetching = ref<boolean>();
 
-await cardStore.fetchCards(route.query);
+await fetch(route.query);
+
+async function fetch(query : LocationQuery) {
+  fetching.value = true;
+  await cardStore.fetchCards(query);
+  fetching.value = false;
+}
 
 function divide() {
   return cardStore.hasCards ? 'divide-y' : 'divide-y-0';
@@ -15,7 +24,7 @@ function padding() {
 }
 
 onBeforeRouteUpdate(async (to, from) => {
-  await cardStore.fetchCards(to.query);
+  fetch(to.query)
 });
 
 
@@ -28,7 +37,10 @@ onBeforeRouteUpdate(async (to, from) => {
         <YugiSearch class="w-full" @search="searching = true" @search-success="searching = false"
           @search-error="() => { searching = false; error = true }" />
       </template>
-      <div class="card-entry" v-if="cardStore.hasCards">
+      <div v-if="fetching">
+        <UProgress animation="carousel" />
+      </div>
+      <div class="card-entry" v-else-if="cardStore.hasCards">
         <div :key="card.id" v-for="card in cardStore.paginated(10, 0)">
           <YugiCardEntry :card="card" />
         </div>
