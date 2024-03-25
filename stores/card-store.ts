@@ -32,17 +32,9 @@ export const useMyCardStore = defineStore({
       }
 
       const params = new URLSearchParams(apiQueryParams);
+      const searchResults = await $fetch<ApiResponse>('/api/v7/cardinfo.php?' + params.toString());
+      this.cardList = searchResults.data;
 
-      try {
-
-        const searchResults = await $fetch<ApiResponse>('/api/v7/cardinfo.php?' + params.toString());
-        this.cardList = searchResults.data;
-
-      } catch (error: any) {
-
-        console.error("Error at fetching request");
-
-      }
     }
   }
 })

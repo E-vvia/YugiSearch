@@ -6,13 +6,20 @@ const searching = ref<boolean>();
 const error = ref<boolean>();
 const route = useRoute();
 const fetching = ref<boolean>();
+const fetchError = ref<boolean>();
 
 await fetch(route.query);
 
-async function fetch(query : LocationQuery) {
+async function fetch(query: LocationQuery) {
   fetching.value = true;
-  await cardStore.fetchCards(query);
-  fetching.value = false;
+  fetchError.value = false;
+  try {
+    await cardStore.fetchCards(query);
+  } catch (error: any) {
+    fetchError.value = true;
+  } finally {
+    fetching.value = false;
+  }
 }
 
 function divide() {
@@ -44,6 +51,12 @@ onBeforeRouteUpdate(async (to, from) => {
         <div :key="card.id" v-for="card in cardStore.paginated(10, 0)">
           <YugiCardEntry :card="card" />
         </div>
+      </div>
+      <div v-if="fetchError" class="flex flex-col items-center justify-center p-4">
+        <UIcon name="i-heroicons-exclamation-triangle"/>
+        <span>
+          No results for query.
+        </span>
       </div>
     </UCard>
   </div>
