@@ -35,7 +35,7 @@ export const useMyCardStore = defineStore({
       const params = new URLSearchParams(apiQueryParams);
       try {
         const searchResults = await $fetch<ApiResponse>('/api/v7/cardinfo.php?' + params.toString());
-        this.cardList = searchResults.data;
+        this.cardList = searchResults.data.filter(c => c.frameType != 'skill');
       } catch (ex) {
         this.cardList = [];
         throw ex;

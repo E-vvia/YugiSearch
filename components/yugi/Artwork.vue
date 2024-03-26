@@ -7,16 +7,21 @@ const props = defineProps({
     required: true
   }
 });
+const artworkUrl = ref<string>();
+
 const cardData = manifest.cards[props.konamiId];
-const artId = Object.keys(cardData)[0];
-const artworkData = cardData[artId];
-const artworkPath = artworkData.bestArt;
-const artworkURL = new URL(artworkPath, 'https://artworks.ygorganization.com/');
+if (cardData) {
+  const keys = Object.keys(cardData);
+  const artId = keys[0];
+  const artworkData = cardData[artId];
+  const artworkPath = artworkData.bestArt;
+  artworkUrl.value = new URL(artworkPath, 'https://artworks.ygorganization.com/').toString();
+}
 
 </script>
 
 <template>
-  <img :src="artworkURL.toString()" loading="lazy">
+  <img :src="artworkUrl" loading="lazy">
 </template>
 
 <style></style>

@@ -6,14 +6,50 @@ const props = defineProps({
   }
 });
 
+const artworkLoaded = ref(false);
+
 </script>
 
 <template>
-  <div class="flex py-6 gap-x-4 border-b-2 border-gray-100">
-    <div class="py-1">
-      <YugiArtwork v-if="card.misc_info[0].konami_id" :konamiId="card.misc_info[0].konami_id"
-        class="max-w-16 lg:max-w-48" />
+  <div class="flex py-6 border-b-2 gap-x-4 border-gray-100">
+    <div class="py-1 flex flex-col justify-content items-center w-max-content">
+      <div class="w-16 h-24 lg:w-48 lg:h-72">
+        <YugiArtwork v-if="card.misc_info[0].konami_id" :konamiId="card.misc_info[0].konami_id"/>
+        <div v-else class="h-full w-full bg-sky-50"></div>
+      </div>
+      <!--Icons-->
+      <div class="flex flex-col md:flex-row items-center justify-center mt-4 border-2 rounded p-1 md:min-w-32 md:max-w-full">
+        <!--Pendulum Scales-->
+        <div v-if="card.scale" class="flex items-center font-semibold m-1">
+          <span>{{ card.scale }}</span>
+          <img class="w-[40px]" src="/icon/Pendulum_Scales.png">
+        </div>
+
+        <!--Level/Rank-->
+        <div v-if="card.level && card.frameType != 'link'" class="flex items-center justify-center font-semibold m-1">
+          <span>{{ card.level }}</span>
+          <div>
+            <img class="w-[24px]" v-if="card.frameType == 'xyz'" src="/icon/rank.png">
+            <img class="w-[24px]" v-else src="/icon/level.png">
+          </div>
+        </div>
+
+        <!--Spell/Trap Icon-->
+        <div v-if="(card.frameType == 'spell' || card.frameType == 'trap') && card.race != 'Normal'"
+          class="flex items-center font-semibold m-1">
+          <img :alt="card.race" :title="card.race" :src="'/icon/' + card.race + '.png'">
+        </div>
+
+        <!--Attribute-->
+        <div class="flex items-center justify-center m-1">
+          <div class="w-[24px]">
+            <img v-if="card.attribute" :src="'/attribute/' + card.attribute + '.png'">
+            <img v-else :src="'/attribute/' + card.frameType + '.png'">
+          </div>
+        </div>
+      </div>
     </div>
+
     <div class="border-2 rounded-md w-full">
       <div class="border-b-2 p-3 border-gray-100 bg-sky-50 justify-between flex items-center">
         <div class="flex flex-col mr-0.5">
@@ -25,7 +61,7 @@ const props = defineProps({
             <span v-if="card.scale">/Pendulum </span>
             <span v-else-if="card.misc_info[0].has_effect">/Effect</span>
           </div>
-          <div class="flex flex-row" v-if="card.frameType == 'link'">
+          <div class="flex flex-row " v-if="card.frameType == 'link'">
             <div v-for="arrow in card.linkmarkers">
               <UIcon name="i-heroicons-arrow-up" v-if="arrow == 'Top'" />
               <UIcon name="i-heroicons-arrow-up-right" v-if="arrow == 'Top-Right'" />
@@ -38,27 +74,9 @@ const props = defineProps({
             </div>
           </div>
         </div>
-        <div class="flex items-center">
-          <div v-if="card.level && card.frameType != 'link'" class="flex items-center font-semibold">
-            <span>{{ card.level }}</span>
-            <div class="h-6 w-6 lg:w-8 lg:h-8 flex">
-              <img v-if="card.frameType == 'xyz'" src="/icon/rank.png">
-              <img v-else src="/icon/level.png">
-            </div>
-          </div>
-          <div v-else class="flex items-center font-semibold">
-            <img :alt="card.race" :title="card.race"
-              v-if="(card.frameType == 'spell' || card.frameType == 'trap') && card.race != 'Normal'"
-              :src="'/icon/' + card.race + '.png'">
-          </div>
-          <div class="h-6 w-6 lg:w-8 lg:h-8">
-            <img v-if="card.attribute" :src="'/attribute/' + card.attribute + '.png'">
-            <img v-else :src="'/attribute/' + card.frameType + '.png'">
-          </div>
-        </div>
       </div>
       <div class="p-3 text-sm lg:text-base">
-          <p class="whitespace-pre-line">{{ card.desc }}</p>
+        <p class="whitespace-pre-line">{{ card.desc }}</p>
       </div>
     </div>
   </div>
