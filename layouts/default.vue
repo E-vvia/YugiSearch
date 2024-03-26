@@ -1,4 +1,16 @@
 <script lang="ts" setup>
+import { storeToRefs } from 'pinia';
+const stateStore = useMyStateStore();
+
+const { pageEnd } = storeToRefs(stateStore);
+
+function infiniteScroll() {
+  pageEnd.value = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight;
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", infiniteScroll);
+});
 
 </script>
 <template>

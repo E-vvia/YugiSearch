@@ -1,34 +1,18 @@
 <script lang="ts" setup>
 import type { QuerySchema } from '~/types/query';
-
-const cardStore = useMyCardStore();
-const searching = ref<boolean>();
-const error = ref<boolean>();
+import { storeToRefs } from 'pinia';
 const route = useRoute();
-const fetching = ref<boolean>();
-const fetchError = ref<boolean>();
 const currentQuery = ref<QuerySchema>(route.query as QuerySchema);
-
-const {refresh} = await useAsyncData('card-search', () => fetch(currentQuery.value));
-
-async function fetch(query: QuerySchema) {
-  fetching.value = true;
-  fetchError.value = false;
-  try {
-    await cardStore.fetchCards(query);
-  } catch (error: any) {
-    fetchError.value = true;
-  } finally {
-    fetching.value = false;
-  }
-}
+const cardStore = useMyCardStore();
+const { paginated, hasCards } = storeToRefs(cardStore);
+const { refresh, pending, status } = await useAsyncData('card-search', () => cardStore.fetchCards(currentQuery.value).then(()=> true));
 
 function divide() {
-  return cardStore.hasCards ? 'divide-y' : 'divide-y-0';
+  return hasCards.value ? 'divide-y' : 'divide-y-0';
 }
 
 function padding() {
-  return cardStore.hasCards ? 'px-4 py-5 sm:p-6' : 'px-0 py-0 sm:p-0';
+  return hasCards.value ? 'px-4 py-5 sm:p-6' : 'px-0 py-0 sm:p-0';
 }
 
 onBeforeRouteUpdate(async (to, from) => {
@@ -43,23 +27,25 @@ onBeforeRouteUpdate(async (to, from) => {
   <div>
     <UCard :ui="{ header: { base: 'flex' }, divide: divide(), body: { padding: padding() } }">
       <template #header>
-        <YugiSearch class="w-full" @search="searching = true" @search-success="searching = false"
-          @search-error="() => { searching = false; error = true }" />
+        <YugiSearch class="w-full" />
       </template>
-      <div v-if="fetching">
-        <UProgress animation="carousel" />
-      </div>
-      <div class="card-entry" v-else-if="cardStore.hasCards">
-        <div :key="card.id" v-for="card in cardStore.paginated(10, 0)">
-          <YugiCardEntry :card="card" />
+      <ClientOnly>
+        <template #fallback>
+          <UProgress v-if="currentQuery.query" animation="carousel" />
+        </template>
+        <UProgress v-if="pending" animation="carousel" />
+        <div class="card-entry" v-if="hasCards">
+          <div :key="card.id" v-for="card in cardStore.paginated(10, 0)">
+            <YugiCardEntry :card="card" />
+          </div>
         </div>
-      </div>
-      <div v-if="fetchError" class="flex flex-col items-center justify-center p-4">
-        <UIcon name="i-heroicons-exclamation-triangle" />
-        <span>
-          No results for query.
-        </span>
-      </div>
+        <div v-if="status == 'error'" class="flex flex-col items-center justify-center p-4">
+          <UIcon name="i-heroicons-exclamation-triangle" />
+          <span>
+            No results for query.
+          </span>
+        </div>
+      </ClientOnly>
     </UCard>
   </div>
 </template>

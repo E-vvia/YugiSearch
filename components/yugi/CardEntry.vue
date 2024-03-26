@@ -47,7 +47,8 @@ const props = defineProps({
             </div>
           </div>
           <div v-else class="flex items-center font-semibold">
-            <img :alt="card.race" :title="card.race" v-if="(card.frameType == 'spell' || card.frameType == 'trap') && card.race != 'Normal'"
+            <img :alt="card.race" :title="card.race"
+              v-if="(card.frameType == 'spell' || card.frameType == 'trap') && card.race != 'Normal'"
               :src="'/icon/' + card.race + '.png'">
           </div>
           <div class="h-6 w-6 lg:w-8 lg:h-8">
@@ -57,7 +58,7 @@ const props = defineProps({
         </div>
       </div>
       <div class="p-3 text-sm lg:text-base">
-        <p>{{ card.desc }}</p>
+          <p class="whitespace-pre-line">{{ card.desc }}</p>
       </div>
     </div>
   </div>
