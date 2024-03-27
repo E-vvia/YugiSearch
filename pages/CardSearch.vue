@@ -47,7 +47,7 @@ watch(pageEnd, (newPageEnd) => {
             <YugiCardEntry :card="card" />
           </div>
         </div>
-        <div v-if="status == 'error' || (status == 'success' && !hasCards)"
+        <div v-if="status == 'error' || (status == 'success' && !hasCards && currentQuery.query)"
           class="flex flex-col items-center justify-center p-4">
           <UIcon name="i-heroicons-exclamation-triangle" />
           <span>
