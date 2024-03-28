@@ -34,19 +34,30 @@ watch(pageEnd, (newPageEnd) => {
 <template>
   <div>
     <UCard :ui="{ header: { base: 'flex' }, divide: divide(), body: { padding: padding() } }">
+      <!--Search bar-->
       <template #header>
         <YugiSearch class="w-full" />
       </template>
+
+      <!--Client only to avoid hydration errors-->
       <ClientOnly>
+
+        <!--Show progress bar while components are mounting-->
         <template #fallback>
           <UProgress v-if="currentQuery.query" animation="carousel" />
         </template>
+
+        <!--Progress bar when fetching data-->
         <UProgress v-if="pending" animation="carousel" />
+
+        <!--Render Card entries when ready-->
         <div class="card-entry" v-if="hasCards">
           <div :key="card.id" v-for="card in paginated(limit, 0)">
             <YugiCardEntry :card="card" />
           </div>
         </div>
+
+        <!--Render error when no cards found-->
         <div v-if="status == 'error' || (status == 'success' && !hasCards && currentQuery.query)"
           class="flex flex-col items-center justify-center p-4">
           <UIcon name="i-heroicons-exclamation-triangle" />
@@ -55,6 +66,7 @@ watch(pageEnd, (newPageEnd) => {
           </span>
         </div>
       </ClientOnly>
+
     </UCard>
   </div>
 </template>
