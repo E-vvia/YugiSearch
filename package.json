@@ -7,11 +7,17 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "hostdev": "nuxt dev --host"
   },
   "dependencies": {
+    "@nuxt/image": "^1.4.0",
+    "@nuxt/ui": "^2.14.2",
+    "@pinia/nuxt": "^0.5.1",
     "nuxt": "^3.11.1",
+    "pinia": "^2.1.7",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "zod": "^3.22.4"
   }
 }
