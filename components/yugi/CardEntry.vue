@@ -12,10 +12,9 @@ const props = defineProps({
   <div class="flex py-6 gap-x-4">
     <div class="py-1 flex flex-col justify-content items-center w-max-content">
       <YugiArtwork :name="card.name" :konamiId="card.misc_info[0].konami_id" />
-
       <!--Icons-->
-      <div
-        class="flex flex-col md:flex-row items-center justify-center mt-4 border-2 rounded p-1 md:min-w-32 md:max-w-full">
+      <UCard
+        :ui="{ base: 'w-full mt-4', body: { base: 'flex flex-col md:flex-row justify-center', padding: 'sm:p-1 p-1' } }">
         <!--Pendulum Scales-->
         <div v-if="card.scale" class="flex items-center font-semibold m-1">
           <span>{{ card.scale }}</span>
@@ -44,7 +43,7 @@ const props = defineProps({
         </div>
 
         <!--Link arrows-->
-        <div class="flex flex-row " v-if="card.frameType == 'link'">
+        <div class="flex flex-row items-center" v-if="card.frameType == 'link'">
           <div v-for="arrow in card.linkmarkers">
             <UIcon name="i-heroicons-arrow-up" v-if="arrow == 'Top'" />
             <UIcon name="i-heroicons-arrow-up-right" v-if="arrow == 'Top-Right'" />
@@ -60,40 +59,39 @@ const props = defineProps({
         <!--Attribute-->
         <div class="flex items-center justify-center m-1">
           <div class="w-[24px] flex items-center">
-            <UTooltip :text="card.attribute == undefined ? card.frameType.toUpperCase() : card.attribute" :popper="{ arrow: true }">
+            <UTooltip :text="card.attribute == undefined ? card.frameType.toUpperCase() : card.attribute"
+              :popper="{ arrow: true }">
               <img v-if="card.attribute" :src="'/attribute/' + card.attribute + '.png'">
               <img v-else :src="'/attribute/' + card.frameType + '.png'">
             </UTooltip>
           </div>
         </div>
-      </div>
+      </UCard>
     </div>
+    <div class="w-full">
+      <UCard
+        :ui="{ base: 'flex flex-col w-full h-full', header: { background: 'bg-sky-50 rounded-t-lg' }, body: { base: 'grow-[2] p-3 text-sm lg:text-base' } }">
 
-    <div class="border-2 rounded-md w-full">
-
-      <!--Card data-->
-      <div class="border-b-2 p-3 border-gray-100 bg-sky-50 justify-between flex items-center">
-        <div class="flex flex-col mr-0.5">
-
+        <!--Card data-->
+        <template #header>
           <!--Card name-->
-          <div>
-            <p class="font-bold text-base lg:text-2xl">{{ card.name }}</p>
-          </div>
+          <p class="font-bold text-base lg:text-2xl">{{ card.name }}</p>
 
           <!--Card types-->
           <div v-if="card.type.includes('Monster')" class="flex text-sm lg:text-base">
-            <span class="max-w-fit" v-if="card.race">{{ card.race }}</span>
-            <span v-if="card.frameType.includes('pendulum')">/Pendulum </span>
-            <span v-if="card.frameType == 'ritual'">/Ritual</span>
-            <span v-else-if="card.misc_info[0].has_effect">/Effect</span>
+            <span>{{ card.race }}/</span>
+            <span>{{ card.type.replace(' Monster', '').replaceAll(' ', '/') }}</span>
           </div>
-        </div>
-      </div>
+        </template>
 
-      <!--Card description-->
-      <div class="p-3 text-sm lg:text-base">
+        <!--Card description-->
         <p class="whitespace-pre-line">{{ card.desc }}</p>
-      </div>
+
+        <template #footer v-if="card.atk">
+          <span><span class="font-medium">ATK:</span> {{ card.atk }}</span>
+          <span v-if="card.def"><span class="font-medium"> DEF:</span> {{ card.def }}</span>
+        </template>
+      </UCard>
     </div>
   </div>
 </template>
