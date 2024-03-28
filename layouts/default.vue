@@ -14,11 +14,22 @@ onMounted(() => {
 
 </script>
 <template>
-  <div class="flex flex-col min-h-lvh p-5 pb-0 md:p-20 md:pb-0 bg-fixed bg-hexagon justify-between">
-    <div>
+  <div class="flex flex-col min-h-lvh  bg-fixed bg-hexagon justify-between">
+    <div class="p-5 md:p-20 ">
       <slot />
     </div>
-    <footer>test</footer>
+    <footer>
+      <div class="bg-white p-4 rounded-t-lg text-sm flex flex-col mx-3">
+        <span>This site is a fansite and is not endorsed or affiliated by Konami Digital Entertainment, Inc. All cards
+          images and content is copyrighted and property of Konami Digital Entertainment, Inc. </span>
+        <span>Thanks to <NuxtLink target="_blank" class="underline text-blue-500 visited:text-purple-500"
+            to="https://ygoprodeck.com/">YGPRODECK</NuxtLink> for providing card data, <NuxtLink target="_blank"
+            class="underline text-blue-500 visited:text-purple-500" to="https://ygorganization.com/">YGOrganization
+          </NuxtLink> for card artwork and <NuxtLink target="_blank"
+            class="underline text-blue-500 visited:text-purple-500" to="https://yugipedia.com/">Yugipedia
+          </NuxtLink> for card icons.</span>
+      </div>
+    </footer>
   </div>
 </template>
 
