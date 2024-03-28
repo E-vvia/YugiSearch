@@ -14,8 +14,11 @@ onMounted(() => {
 
 </script>
 <template>
-  <div class="min-h-lvh p-5 md:p-20 bg-fixed bg-hexagon">
-    <slot />
+  <div class="flex flex-col min-h-lvh p-5 pb-0 md:p-20 md:pb-0 bg-fixed bg-hexagon justify-between">
+    <div>
+      <slot />
+    </div>
+    <footer>test</footer>
   </div>
 </template>
 
