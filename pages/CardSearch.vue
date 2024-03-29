@@ -2,13 +2,29 @@
 import type { QuerySchema } from '~/types/query';
 import { storeToRefs } from 'pinia';
 const route = useRoute();
+definePageMeta({
+  middleware: [
+    async function (to, from) {
+      if (!(to.query as QuerySchema).query) {
+        return '/';
+      }
+    }
+  ],
+});
+
 const currentQuery = ref<QuerySchema>(route.query as QuerySchema);
+useHeadSafe({
+  title: currentQuery.value.query + ' - YugiSearch'
+});
+
 const cardStore = useMyCardStore();
 const stateStore = useMyStateStore();
 const { paginated, hasCards } = storeToRefs(cardStore);
 const { pageEnd } = storeToRefs(stateStore);
 const { refresh, pending, status } = await useAsyncData('card-search', () => cardStore.fetchCards(currentQuery.value).then(() => true));
 const limit = ref(10);
+
+
 
 function divide() {
   return hasCards.value ? 'divide-y' : 'divide-y-0';

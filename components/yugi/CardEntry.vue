@@ -33,7 +33,7 @@ const props = defineProps({
         <!--Card description-->
         <p class="whitespace-pre-line">{{ card.desc }}</p>
 
-        <template #footer v-if="card.atk">
+        <template #footer>
           <div>
             <div class="flex justify-center gap-x-3 my-1.5">
               <!--Attribute-->
@@ -45,7 +45,7 @@ const props = defineProps({
               </div>
 
               <!--Atk Def-->
-              <div class="flex flex-col justify-center">
+              <div class="flex flex-col justify-center" v-if="card.atk">
                 <span><span class="font-medium">ATK:</span> {{ card.atk }}</span>
                 <span v-if="card.def"><span class="font-medium">DEF:</span> {{ card.def }}</span>
               </div>
@@ -57,8 +57,8 @@ const props = defineProps({
                   class="flex items-center justify-center font-semibold">
                   <span>{{ card.level }}</span>
                   <div class="w-[24px] flex items-center">
-                    <img alt="Rank icon" v-if="card.frameType == 'xyz'" src="/icon/rank.png">
-                    <img alt="Level icon" v-else src="/icon/level.png">
+                    <img alt="Rank icon" v-if="card.frameType == 'xyz'" src="/icon/Rank.png">
+                    <img alt="Level icon" v-else src="/icon/Level.png">
                   </div>
                 </div>
 
