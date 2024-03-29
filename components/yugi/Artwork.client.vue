@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import manifestFile from '~/public/manifest.json';
-const manifest = manifestFile as any;
 const props = defineProps({
   konamiId: {
     type: [String, Number],
@@ -12,6 +10,7 @@ const props = defineProps({
   }
 });
 
+const manifest = (<any>window).artworkFile;
 const artworkUrl = ref<string>();
 
 if (props.konamiId) {
@@ -29,7 +28,7 @@ if (props.konamiId) {
 
 <template>
   <div class="w-16 h-24 lg:w-48 lg:h-72">
-    <img :alt="name+' artwork'" v-if="artworkUrl" :src="artworkUrl" loading="lazy">
+    <img :alt="name + ' artwork'" v-if="artworkUrl" :src="artworkUrl" loading="lazy">
     <div v-else class="h-full w-full bg-sky-100 flex justify-center items-center">
       <span class="font-bold">
         No artwork available
