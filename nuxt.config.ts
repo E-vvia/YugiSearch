@@ -7,6 +7,8 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    public: {
       analyticsToken: ''
+    }
   }
 })
