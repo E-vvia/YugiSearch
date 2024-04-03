@@ -1,11 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxt/ui', '@pinia/nuxt', 'nuxt-cloudflare-analytics'],
+  modules: ['@nuxt/ui', '@pinia/nuxt'],
   colorMode: {
     preference: 'light'
   },
-  cloudflareAnalytics: {
-    token: ''
-  },
+
+  runtimeConfig: {
+      analyticsToken: ''
+  }
 })
