@@ -12,7 +12,7 @@ useHead({
   ]
 }, { mode: 'client' });
 
-if (window) {
+if (window && !window.artworkFile) {
   window.artworkFile = await $fetch('https://artworks.ygorganization.com/manifest.json');
 }
 </script>
