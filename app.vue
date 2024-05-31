@@ -13,7 +13,9 @@ useHead({
 }, { mode: 'client' });
 
 if (window && !window.artworkFile) {
-  window.artworkFile = await $fetch('https://artworks.ygorganization.com/manifest.json');
+  window.artworkFile = await $fetch('https://artworks.ygoresources.com/manifest.json', {
+    method: 'GET'
+  });
 }
 </script>
 <template>
