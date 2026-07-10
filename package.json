@@ -10,12 +10,19 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/ui": "^4.9.0",
     "nuxt": "^4.4.8",
+    "tailwindcss": "^4.3.2",
     "vue": "^3.5.39",
     "vue-router": "^5.1.0"
   },
   "devDependencies": {
-    "typescript": "^7.0.2",
+    "typescript": "^6.0.3",
     "vue-tsc": "^3.3.7"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.5.6": true,
+    "vue-demi@0.14.10": true,
+    "esbuild@0.28.1": true
   }
 }
