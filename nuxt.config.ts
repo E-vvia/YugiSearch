@@ -5,6 +5,9 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
   },
+  colorMode: {
+    preference: 'light',
+  },
   modules: ['@nuxt/ui', '@nuxt/image'],
   css: ['~/assets/css/main.css']
 })
