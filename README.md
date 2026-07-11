@@ -1,75 +1,25 @@
-# Nuxt Minimal Starter
-
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# YugiSearch
+A Yu-Gi-Oh! TCG searched made with Nuxt 4 and Nuxt UI.
 
 ## Setup
 
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
+# Install dependencies
+npm run install
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
+# Run in dev mode
 npm run dev
 
-# pnpm
-pnpm dev
+# Run in dev mode and expose
+npm run hostdev
 
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
+# Build for production
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+## Credits
+Thanks to [YGPRODECK]("https://ygoprodeck.com/") for their database API and [Yugipedia]("https://yugipedia.com/") for card icons and Konami for making the Yu-Gi-Oh! TCG.
 
-```bash
-# npm
-npm run preview
+## Copyright
+**This project is a fan project and is in no way endorsed or affiliated by Konami Digital Entertainment, Inc.**
 
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
