@@ -1,6 +1,12 @@
+<script setup lang="ts">
+useHeadSafe({
+  title: 'YugiSearch'
+})
+</script>
 <template>
   <UApp>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </UApp>
 </template>
